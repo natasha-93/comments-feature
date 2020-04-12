@@ -1,24 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
+  const [newComment, setNewComment] = useState("");
+  const [newAuthor, setNewAuthor] = useState("");
+  const [comments, setComments] = useState([{ text: "Hello", author: "Me" }]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "1.5rem", margin: "1rem" }}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setComments([...comments, { text: newComment, author: newAuthor }]);
+
+          setNewComment("");
+          setNewAuthor("");
+        }}
+      >
+        <textarea
+          style={{
+            padding: "1.5rem",
+            margin: "1rem",
+            display: "block",
+            resize: "none",
+          }}
+          required={true}
+          placeholder="Add Comment here"
+          value={newComment}
+          onChange={(e) => {
+            setNewComment(e.target.value);
+          }}
+        />
+        <input
+          style={{ padding: "1.5rem", margin: "1rem" }}
+          required={true}
+          placeholder="Add Author here"
+          value={newAuthor}
+          onChange={(e) => {
+            setNewAuthor(e.target.value);
+          }}
+        />
+        <button>Add Comment</button>
+      </form>
+      {comments.map((comment, i) => (
+        <div key={i}>
+          <p>
+            {comment.text} - {comment.author}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
